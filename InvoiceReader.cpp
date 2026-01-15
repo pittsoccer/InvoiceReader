@@ -3,10 +3,8 @@
    - Algorithms
      - List of steps to solve a problem
    - Control Structures
-     - The order that code is executed
      - A programming construct that dictates the order in which code instructions are executed
    - Data Structures
-     - ...
      - A specialized format for organizing, processing, retrieving, and storing data in a computer
 */
 
@@ -33,7 +31,6 @@ struct Invoice {
     string itemDescription;
     double itemCost;
     int quantity;
-
 };
 
 void readInvoices(Invoice inv[], int &num);
@@ -80,5 +77,4 @@ void printInvoices(const Invoice inv[], int num) {
         cout << inv[i].quantity << " | ";
         cout << endl;
     }
-
 }
