@@ -38,6 +38,7 @@ struct Invoice {
 
 // functions
 void readInvoices(Invoice inv[], int &num);
+void newInvoice(Invoice inv[], int &num);
 void printInvoices(const Invoice inv[], int num);
 void sortByLastName(Invoice inv[], int num);
 double findTotalCost(Invoice inv);
@@ -46,10 +47,18 @@ int main() {
     Invoice invoice[MAX_INVOICES];
     int numInvoices = 0;
 
+    // print invoices
     readInvoices(invoice, numInvoices);
     printInvoices(invoice, numInvoices);
-    sortByLastName(invoice, numInvoices);
 
+    // add new invoice
+    cout << endl;
+    cout << "New Invoice" << endl;
+    cout << "-----------" << endl;
+    newInvoice(invoice, numInvoices);
+
+    // sort invoices by last name
+    sortByLastName(invoice, numInvoices);
     cout << endl;
     cout << " Sorted" << endl;
     printInvoices(invoice, numInvoices);
@@ -66,6 +75,31 @@ double findTotalCost(Invoice inv) {
     total *= (1 + FLORENCE_TAX_RATE);
 
 return total;
+}
+
+// Function: newInvoice
+void newInvoice(Invoice inv[], int &num) {
+
+    cout << "Invoice ID: ";
+    cin >> inv[num].invoiceID;
+    
+    cout << "Customer First Name: ";
+    cin >> ws;
+    getline(cin, inv[num].customerFirst);
+
+    cout << "Customer Last Name: ";
+    getline(cin, inv[num].customerLast);
+
+    cout << "Item Description: ";
+    getline(cin, inv[num].itemDescription);
+
+    cout << "Item Cost: ";
+    cin >> inv[num].itemCost;
+
+    cout << "Quantity: ";
+    cin >> inv[num].quantity;
+
+    num++;
 }
 
 // Function: readInvoices
