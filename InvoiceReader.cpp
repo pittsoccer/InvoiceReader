@@ -19,11 +19,14 @@
 */
 
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 using namespace std;
 
+// constants
 const int MAX_INVOICES = 100;
 
+// structs
 struct Invoice {
     int invoiceID;
     string customerFirst;
@@ -33,8 +36,11 @@ struct Invoice {
     int quantity;
 };
 
+// functions
 void readInvoices(Invoice inv[], int &num);
 void printInvoices(const Invoice inv[], int num);
+void sortByLastName(Invoice inv[], int num);
+double findTotalCost(Invoice inv);
 
 int main() {
     Invoice invoice[MAX_INVOICES];
@@ -42,8 +48,24 @@ int main() {
 
     readInvoices(invoice, numInvoices);
     printInvoices(invoice, numInvoices);
+    sortByLastName(invoice, numInvoices);
+
+    cout << endl;
+    cout << " Sorted" << endl;
+    printInvoices(invoice, numInvoices);
     
 return 0;
+}
+
+// Function: findTotalCost
+double findTotalCost(Invoice inv) {
+    const double FLORENCE_TAX_RATE = 0.095;
+    double total = 0;
+
+    total = inv.itemCost * inv.quantity;
+    total *= (1 + FLORENCE_TAX_RATE);
+
+return total;
 }
 
 // Function: readInvoices
@@ -69,12 +91,30 @@ void printInvoices(const Invoice inv[], int num) {
     cout << "Invoices" << endl;
     cout << "--------" << endl << endl;
     for (int i = 0; i < num; i++) {
-        cout << inv[i].invoiceID << " |  ";
-        cout << inv[i].customerFirst << " | ";
-        cout << inv[i].customerLast << " | ";
-        cout << inv[i].itemDescription << " | ";
-        cout << "$" << inv[i].itemCost << " | ";
-        cout << inv[i].quantity << " | ";
+        cout << setw(6) << inv[i].invoiceID << " ";
+        cout << setw(10) << left << inv[i].customerFirst;
+        cout << setw(12) << inv[i].customerLast;
+        cout << setw(12) << inv[i].itemDescription;
+        cout << setw(10) << right << setprecision(2) << fixed << inv[i].itemCost;
+        cout << setw(6) << inv[i].quantity;
+        cout << setw(8) << findTotalCost(inv[i]);
         cout << endl;
+    }
+}
+
+void sortByLastName(Invoice inv[], int num) {
+    int minIndex = 0;
+    Invoice temp;
+
+    for (int i = 0; i < num - 1; i++) {
+        minIndex = i;
+        for (int j = 1 + i; j < num; j++) {
+            if (inv[j].customerLast < inv[minIndex].customerLast) {
+                minIndex = j;
+            }
+        }
+        temp = inv[i];
+        inv[i] = inv[minIndex];
+        inv[minIndex] = temp;
     }
 }
